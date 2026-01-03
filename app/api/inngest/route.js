@@ -3,6 +3,7 @@ import {
   inngest,
   syncUserCreation,
   syncUserUpdation,
+  syncUserDeletion,
 } from "@/config/inngest";
 
 export const runtime = "nodejs";
