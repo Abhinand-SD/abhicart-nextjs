@@ -11,5 +11,5 @@ export const dynamic = "force-dynamic";
 
 export const { GET, POST, PUT } = serve({
   client: inngest,
-  functions: [syncUserCreation, syncUserUpdation, syncUserDeletion],
+  functions: [syncUserCreation, syncUserUpdation],
 });
