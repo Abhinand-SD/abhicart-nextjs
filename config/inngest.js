@@ -10,13 +10,13 @@ export const syncUserCreation = inngest.createFunction(
     {
         id: 'sync-user-from-clerk'
     },
-    {event: 'clerk/user.created'},
-    async ({event}) => {
-        const {id, frist_name, last_name, email_adresses, image_url} = event.data
+    { event: 'clerk/user.created' },
+    async ({ event }) => {
+        const { id, first_name, last_name, email_addresses, image_url } = event.data
         const userData = {
-            _id:id,
-            email: email_adresses[0].email_adresses,
-            name: `${frist_name} ${last_name}`,
+            _id: id,
+            email: email_addresses[0].email_address,
+            name: `${first_name} ${last_name}`,
             imageUrl: image_url
         }
         await connectDB()
@@ -27,17 +27,17 @@ export const syncUserCreation = inngest.createFunction(
 // Inngest Funtion to update user data in database
 export const syncUserUpdation = inngest.createFunction(
     {
-        id:'update-user-from-clerk'
+        id: 'update-user-from-clerk'
     },
-    {event: 'clerk/user.update'},
-    async ({event}) => {
-        const {id, frist_name, last_name, email_addresses, image_url} = event.data
+    { event: 'clerk/user.update' },
+    async ({ event }) => {
+        const { id, frist_name, last_name, email_addresses, image_url } = event.data
 
         const userData = {
             _id: id,
-            email: email_addresses[0].email_addresses,
+            email: email_addresses[0].email_address,
             name: `${frist_name} ${last_name}`,
-            image_url: image_url
+            imageUrl: image_url
         }
         await connectDB()
         await User.findByIdAndUpdate(id, userData)
@@ -49,9 +49,9 @@ export const syncUserDeletion = inngest.createFunction(
     {
         id: 'delete-user-with clerk'
     },
-    {event : 'clerk/user.deleted'},
-    async ({event}) => {
-        const {id} = event.data
+    { event: 'clerk/user.deleted' },
+    async ({ event }) => {
+        const { id } = event.data
         await connectDB()
         await User.findByIdAndDelete(id)
     }
