@@ -1,6 +1,6 @@
 "use client";
 import { productsDummyData, userDummyData } from "@/assets/assets";
-import { useUser } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -11,15 +11,17 @@ export const useAppContext = () => {
 };
 
 export const AppContextProvider = (props) => {
-  const currency = process.env.NEXT_PUBLIC_CURRENCY;
-  const router = useRouter();
 
-  const { user } = useUser();
+    const currency = process.env.NEXT_PUBLIC_CURRENCY
+    const router = useRouter()
 
-  const [products, setProducts] = useState([]);
-  const [userData, setUserData] = useState(false);
-  const [isSeller, setIsSeller] = useState(false);
-  const [cartItems, setCartItems] = useState({});
+    const {user} = useUser()
+    const { getToken} = useAuth()
+
+    const [products, setProducts] = useState([])
+    const [userData, setUserData] = useState(false)
+    const [isSeller, setIsSeller] = useState(true)
+    const [cartItems, setCartItems] = useState({})
 
   const fetchProductData = async () => {
     setProducts(productsDummyData);
@@ -83,29 +85,20 @@ export const AppContextProvider = (props) => {
     fetchProductData();
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      fetchUserData();
-    }
-  }, [user]);
+    useEffect(() => {
+        fetchUserData()
+    }, [])
 
-  const value = {
-    currency,
-    router,
-    isSeller,
-    setIsSeller,
-    userData,
-    fetchUserData,
-    products,
-    fetchProductData,
-    cartItems,
-    setCartItems,
-    addToCart,
-    updateCartQuantity,
-    getCartCount,
-    getCartAmount,
-    user,
-  };
+    const value = {
+        user, getToken,
+        currency, router,
+        isSeller, setIsSeller,
+        userData, fetchUserData,
+        products, fetchProductData,
+        cartItems, setCartItems,
+        addToCart, updateCartQuantity,
+        getCartCount, getCartAmount,
+    }
 
   return (
     <AppContext.Provider value={value}>{props.children}</AppContext.Provider>

@@ -41,7 +41,7 @@ const ProductCard = ({ product }) => {
                             src={
                                 index < Math.floor(4)
                                     ? assets.star_icon
-                                    : assets.star_dull_icon
+                                    : assets.star_dull_icon 
                             }
                             alt="star_icon"
                         />
