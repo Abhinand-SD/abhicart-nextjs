@@ -31,12 +31,12 @@ export const syncUserUpdation = inngest.createFunction(
     },
     { event: 'clerk/user.update' },
     async ({ event }) => {
-        const { id, frist_name, last_name, email_addresses, image_url } = event.data
+        const { id, first_name, last_name, email_addresses, image_url } = event.data
 
         const userData = {
             _id: id,
             email: email_addresses[0].email_address,
-            name: `${frist_name} ${last_name}`,
+            name: `${first_name} ${last_name}`,
             imageUrl: image_url
         }
         await connectDB()
