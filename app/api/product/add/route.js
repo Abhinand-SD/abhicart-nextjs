@@ -58,7 +58,7 @@ export async function POST(request) {
             })
         )
 
-        const images = result.map(result => result.secure_url)
+        const image = result.map(result => result.secure_url)
 
         await connectDB()
 
@@ -67,10 +67,10 @@ export async function POST(request) {
             name,
             description,
             category,
-            price: Number(price),
-            offerPrice: Number(offerPrice),
-            images,
-            Date: Date.now()
+            price:Number(price),
+            offerPrice:Number(offerPrice),
+            image,
+            date: Date.now()
         })
 
         return NextResponse.json({ success: true, message: 'Product added successfully', newProduct })

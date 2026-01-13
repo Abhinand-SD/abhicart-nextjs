@@ -28,16 +28,15 @@ const AddProduct = () => {
     formData.append('price', price)
     formData.append('offerPrice', offerPrice)
 
-    files.forEach((file) => {
-      if (file) {
-        formData.append('images', file)
-      }
-    })
+    for (let i=0; i< files.length; i++){
+      formData.append('images', files[i])
+    }
 
     try {
       const token = await getToken()
 
       const {data} = await axios.post('/api/product/add', formData, {headers: {Authorization: `Bearer ${token}`}})
+      
       if(data.success){
         toast.success(data.message)
         setFiles([])

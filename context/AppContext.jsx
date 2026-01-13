@@ -14,16 +14,16 @@ export const useAppContext = () => {
 
 export const AppContextProvider = (props) => {
 
-    const currency = process.env.NEXT_PUBLIC_CURRENCY
-    const router = useRouter()
+  const currency = process.env.NEXT_PUBLIC_CURRENCY
+  const router = useRouter()
 
-    const {user} = useUser()
-    const { getToken } = useAuth()
+  const { user } = useUser()
+  const { getToken } = useAuth()
 
-    const [products, setProducts] = useState([])
-    const [userData, setUserData] = useState(false)
-    const [isSeller, setIsSeller] = useState(true)
-    const [cartItems, setCartItems] = useState({})
+  const [products, setProducts] = useState([])
+  const [userData, setUserData] = useState(false)
+  const [isSeller, setIsSeller] = useState(true)
+  const [cartItems, setCartItems] = useState({})
 
   const fetchProductData = async () => {
     setProducts(productsDummyData);
@@ -37,17 +37,16 @@ export const AppContextProvider = (props) => {
 
       const token = await getToken()
 
-      const {data} = await axios.get('/api/user/data',{headers: {  Authorization: `Bearer ${token}`}})
+      const { data } = await axios.get('/api/user/data', { headers: { Authorization: `Bearer ${token}` } })
 
-      if(data.success) {
+      if (data.success) {
         setUserData(data.user)
         setCartItems(data.user.cartItems)
-      }else{
+      } else {
         toast.error(data.message)
       }
 
-      setUserData(userDummyData);
-    } catch (error){
+    } catch (error) {
       toast.error(error.message)
     }
   };
@@ -97,22 +96,22 @@ export const AppContextProvider = (props) => {
     fetchProductData();
   }, []);
 
-    useEffect(() => {
-      if(user){
-        fetchUserData()
-      }
-    }, [user])
-
-    const value = {
-        user, getToken,
-        currency, router,
-        isSeller, setIsSeller,
-        userData, fetchUserData,
-        products, fetchProductData,
-        cartItems, setCartItems,
-        addToCart, updateCartQuantity,
-        getCartCount, getCartAmount,
+  useEffect(() => {
+    if (user) {
+      fetchUserData()
     }
+  }, [user])
+
+  const value = {
+    user, getToken,
+    currency, router,
+    isSeller, setIsSeller,
+    userData, fetchUserData,
+    products, fetchProductData,
+    cartItems, setCartItems,
+    addToCart, updateCartQuantity,
+    getCartCount, getCartAmount,
+  }
 
   return (
     <AppContext.Provider value={value}>{props.children}</AppContext.Provider>
