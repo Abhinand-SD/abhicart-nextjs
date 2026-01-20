@@ -1,3 +1,4 @@
+import { inngest } from "@/config/inngest";
 import Product from "@/models/Product";
 import User from "@/models/User";
 import { getAuth } from "@clerk/nextjs/server";
@@ -24,7 +25,7 @@ export async function POST(request) {
                 userId,
                 address,
                 items,
-                amount: amount + math.floor(amount * 0.02),
+                amount: amount + Math.floor(amount * 0.02),
                 date: Date.now()
             }
         })
